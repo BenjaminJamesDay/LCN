@@ -16,7 +16,12 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES']='3'
 
 
-print('Imports successful\n')
+import psutils
+
+mem = psutils.virtual_memory()
+print('Available memory: %.3f' % (mem.available))
+
+print('Imports successful')
 
 # training parameters
 batchsize = 64
@@ -69,6 +74,9 @@ top_epoch = 0
 savepath = './best' + time_label
 val_acc = []
 
+
+print('Available memory: %.3f' % (mem.available))
+
 for epoch in range(max_epochs):
     running_loss = 0.0
     # set model to train mode (for the dropout)
@@ -94,6 +102,7 @@ for epoch in range(max_epochs):
         running_loss += loss.item()
         if i % 10 == 0:
             print('Finished batch %d' % (i))
+            print('Available memory: %.3f' % (mem.available))
             
     # arrays to store results (need 1 place for a 1-loop, 2 places for a 2-loop etc.)
     correct = 0
