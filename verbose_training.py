@@ -108,7 +108,7 @@ for epoch in range(max_epochs):
     correct = 0
     total = 0
     AEloss = 0.0
-    
+    print('Completed training for epoch')
     # validation
     # set model to eval mode (dropout)
     model.eval()
