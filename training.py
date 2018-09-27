@@ -18,7 +18,7 @@ os.environ['CUDA_VISIBLE_DEVICES']='3'
 
 
 # training parameters
-batchsize = 32
+batchsize = 64
 lr0 = 1e-4
 max_epochs = 500
 

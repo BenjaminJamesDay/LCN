@@ -12,10 +12,14 @@ import models
 
 from lib import data_loader_CIFAR10
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES']='3'
+
+
 print('Imports successful\n')
 
 # training parameters
-batchsize = 32
+batchsize = 64
 lr0 = 1e-4
 max_epochs = 500
 
@@ -90,7 +94,7 @@ for epoch in range(max_epochs):
         optimizer.step()
         # update total loss for the epoch
         running_loss += loss.item()
-        if i % 10:
+        if i % 10 == 0:
             print('Finished batch %d in time' % (i))
             
     # arrays to store results (need 1 place for a 1-loop, 2 places for a 2-loop etc.)
