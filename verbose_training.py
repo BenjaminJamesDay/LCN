@@ -16,9 +16,9 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES']='3'
 
 
-import psutils
+import psutil
 
-mem = psutils.virtual_memory()
+mem = psutil.virtual_memory()
 print('Available memory: %.3f' % (mem.available))
 
 print('Imports successful')
