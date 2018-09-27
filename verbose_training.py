@@ -112,24 +112,22 @@ for epoch in range(max_epochs):
     # validation
     # set model to eval mode (dropout)
     model.eval()
-    for data in validloader:
 
-        # load data
-        inputs, labels = data
-        if torch.cuda.is_available():
-            inputs, labels = inputs.cuda(), labels.cuda()
-        classification, replication = model(inputs)
+    with torch.no_grad():
+        for data in validloader:
+            inputs, labels = data
+            if torch.cuda.is_available():
+                inputs, labels = inputs.cuda(), labels.cuda()
+            classification, replication = model(inputs)
+            _, predicted = torch.max(classification.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+            AEloss += aecrit(replication, inputs)
         
-        _, predicted = torch.max(classification.data, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum()
-        
-        AEloss += aecrit(replication, inputs)
-
     score = 100*correct/total
     val_acc.append(score)
 
-    print('[Loop - Epoch - Validation Accuracy - AE Loss]\t%d\t%d\t%.3f\t%.3f' % (loop, epoch+1, 100*correct/total, AEloss))
+    print('[Loop - Epoch - Validation Accuracy - AE Loss]\t%d\t%d\t%.3f\t%.3f' % (loop, epoch+1, score, AEloss))
 
     # check if improvement was made in the final loop
     if score >= val_max:
