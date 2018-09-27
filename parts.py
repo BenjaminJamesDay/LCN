@@ -60,7 +60,7 @@ class decoder(nn.Module):
 
 class plaindecoder(nn.Module):
     def __init__(self):
-        super(decoder, self).__init__()
+        super(plaindecoder, self).__init__()
         
         self.unconv1 = nn.ConvTranspose2d(256,128,2) # 128,2,2
         self.unconv2 = nn.ConvTranspose2d(128,64,2, stride=2) # 64,4,4
