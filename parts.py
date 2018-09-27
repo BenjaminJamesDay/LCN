@@ -54,11 +54,28 @@ class decoder(nn.Module):
         x = (g[2].view(-1,g[2].size()[-1],1,1).expand_as(x) + 1)*(x-b[2].view(-1,b[2].size()[-1],1,1).expand_as(x))
         x = F.relu(self.unconv4(x))
         x = (g[3].view(-1,g[3].size()[-1],1,1).expand_as(x) + 1)*(x-b[3].view(-1,b[3].size()[-1],1,1).expand_as(x))
-        x = F.hardtanh(self.unconv5(x), min_val=0, max_val=1)
+        x = F.sigmoid(self.unconv5(x))
         
         return x
 
-
+class plaindecoder(nn.Module):
+    def __init__(self):
+        super(decoder, self).__init__()
+        
+        self.unconv1 = nn.ConvTranspose2d(256,128,2) # 128,2,2
+        self.unconv2 = nn.ConvTranspose2d(128,64,2, stride=2) # 64,4,4
+        self.unconv3 = nn.ConvTranspose2d(64,32,3, stride=2, padding=1, output_padding = 1) # 32,8,8
+        self.unconv4 = nn.ConvTranspose2d(32,16,3, stride=2, padding=1, output_padding = 1) # 16,16,16
+        self.unconv5 = nn.ConvTranspose2d(16,3,3, stride=2, padding=1, output_padding = 1) # 3,32,32
+        
+    def forward(self, x):
+        x = F.relu(self.unconv1(x))
+        x = F.relu(self.unconv2(x))
+        x = F.relu(self.unconv3(x))
+        x = F.relu(self.unconv4(x))
+        x = F.sigmoid(self.unconv5(x))
+        return x
+    
 # In[10]:
 
 
