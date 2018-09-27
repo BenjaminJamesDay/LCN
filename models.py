@@ -24,7 +24,7 @@ class latentConditionerModel10(nn.Module):
         
         return [yHat, xHat]
 
-class lcm10overbose(nn.Module):
+class lcm10verbose(nn.Module):
     def __init__(self):
         super(latentConditionerModel10, self).__init__()
         
