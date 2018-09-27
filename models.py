@@ -26,7 +26,7 @@ class latentConditionerModel10(nn.Module):
 
 class lcm10verbose(nn.Module):
     def __init__(self):
-        super(latentConditionerModel10, self).__init__()
+        super(lcm10verbose, self).__init__()
         
         self.encoder = parts.encoder()
         self.latent2classifier = parts.latent2classifier()
