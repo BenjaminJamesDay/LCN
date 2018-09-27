@@ -51,7 +51,7 @@ def combined_loss(classification, replication, ins, label, classifier_crit, AE_c
 val_acc_df =  pd.DataFrame()
 tests_df = pd.DataFrame()
 
-model = models.latentConditionerModel10()
+model = models.LCN10()
 print('Model loaded')
 if torch.cuda.is_available():
     model.cuda()
