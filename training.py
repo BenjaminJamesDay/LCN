@@ -99,11 +99,10 @@ val_acc = []
 
 for epoch in range(max_epochs):
     running_loss = 0.0
-    
+    # set model to train mode (for the dropout)
+    model.train()
         # go through the full dataset
     for i, data in enumerate(trainloader,0):
-        # set model to train mode (for the dropout)
-        model.train()
         # zero the gradient
         optimizer.zero_grad()
         # load data
@@ -126,9 +125,10 @@ for epoch in range(max_epochs):
     total = 0
     AEloss = 0.0
     # validation
+    
+    # set model to eval mode (dropout)
+    model.eval()
     for data in validloader:
-        # set model to eval mode (dropout)
-        model.eval()
         # load data
         inputs, labels = data
         if torch.cuda.is_available():
@@ -170,9 +170,10 @@ model.load_state_dict(torch.load(savepath))
 correct = 0
 total = 0
 
+# set model to eval mode (dropout)
+model.eval()
+
 for data in testloader:
-    # set model to eval mode (dropout)
-    model.eval()
     # load data
     inputs, labels = data
     if torch.cuda.is_available():

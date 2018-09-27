@@ -71,13 +71,11 @@ val_acc = []
 
 for epoch in range(max_epochs):
     running_loss = 0.0
-    
+    # set model to train mode (for the dropout)
+    model.train()
     # go through the full dataset
     print('Starting epoch %d \n' % (epoch+1))
     for i, data in enumerate(trainloader,0):
-        t1 = time.time()
-        # set model to train mode (for the dropout)
-        model.train()
         # zero the gradient
         optimizer.zero_grad()
         # load data
@@ -95,16 +93,18 @@ for epoch in range(max_epochs):
         # update total loss for the epoch
         running_loss += loss.item()
         if i % 10 == 0:
-            print('Finished batch %d in time' % (i))
+            print('Finished batch %d' % (i))
             
     # arrays to store results (need 1 place for a 1-loop, 2 places for a 2-loop etc.)
     correct = 0
     total = 0
     AEloss = 0.0
+    
     # validation
+    # set model to eval mode (dropout)
+    model.eval()
     for data in validloader:
-        # set model to eval mode (dropout)
-        model.eval()
+
         # load data
         inputs, labels = data
         if torch.cuda.is_available():
@@ -146,9 +146,10 @@ model.load_state_dict(torch.load(savepath))
 correct = 0
 total = 0
 
+# set model to eval mode (dropout)
+model.eval()
+
 for data in testloader:
-    # set model to eval mode (dropout)
-    model.eval()
     # load data
     inputs, labels = data
     if torch.cuda.is_available():
