@@ -15,9 +15,6 @@ from lib import data_loader_CIFAR10
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='3'
 
-
-print('Available memory: %.3f' % (mem.available))
-
 print('Imports successful')
 
 # training parameters
