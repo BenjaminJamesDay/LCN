@@ -13,6 +13,10 @@ import models
 
 from lib import data_loader_CIFAR10
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES']='3'
+
+
 # training parameters
 batchsize = 32
 lr0 = 1e-4
