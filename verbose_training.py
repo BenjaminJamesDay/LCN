@@ -16,9 +16,6 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES']='3'
 
 
-import psutil
-
-mem = psutil.virtual_memory()
 print('Available memory: %.3f' % (mem.available))
 
 print('Imports successful')
@@ -34,7 +31,7 @@ trainloader, validloader = trainvalid
 
 testloader = data_loader_CIFAR10.get_test_loader('./data', batch_size=batchsize)
 
-print('Data loaded\n')
+print('Data loaded')
 
 # Run parameters
 max_epochs = 500
@@ -58,10 +55,10 @@ val_acc_df =  pd.DataFrame()
 tests_df = pd.DataFrame()
 
 model = models.latentConditionerModel10()
-print('Model loaded\n')
+print('Model loaded')
 if torch.cuda.is_available():
     model.cuda()
-    print('Model moved to GPU\n')
+    print('Model moved to GPU')
 
 classcrit = nn.CrossEntropyLoss()
 aecrit = nn.MSELoss()
@@ -74,15 +71,12 @@ top_epoch = 0
 savepath = './best' + time_label
 val_acc = []
 
-
-print('Available memory: %.3f' % (mem.available))
-
 for epoch in range(max_epochs):
     running_loss = 0.0
     # set model to train mode (for the dropout)
     model.train()
     # go through the full dataset
-    print('Starting epoch %d \n' % (epoch+1))
+    print('Starting epoch %d' % (epoch+1))
     for i, data in enumerate(trainloader,0):
         # zero the gradient
         optimizer.zero_grad()
@@ -102,7 +96,6 @@ for epoch in range(max_epochs):
         running_loss += loss.item()
         if i % 10 == 0:
             print('Finished batch %d' % (i))
-            print('Available memory: %.3f' % (mem.available))
             
     # arrays to store results (need 1 place for a 1-loop, 2 places for a 2-loop etc.)
     correct = 0
@@ -127,7 +120,7 @@ for epoch in range(max_epochs):
     score = 100*correct/total
     val_acc.append(score)
 
-    print('[Loop - Epoch - Validation Accuracy - AE Loss]\t%d\t%d\t%.3f\t%.3f' % (loop, epoch+1, score, AEloss))
+    print('[Epoch - Validation Accuracy - AE Loss]\t%d\t%.3f\t%.3f' % (epoch+1, score, AEloss))
 
     # check if improvement was made in the final loop
     if score >= val_max:
@@ -152,22 +145,21 @@ model.load_state_dict(torch.load(savepath))
 
 correct = 0
 total = 0
+AEloss = 0
 
 # set model to eval mode (dropout)
 model.eval()
 
-for data in testloader:
-    # load data
-    inputs, labels = data
-    if torch.cuda.is_available():
-        inputs, labels = inputs.cuda(), labels.cuda()
-    classification, replication = model(inputs)
-
-    _, predicted = torch.max(classification.data, 1)
-    total += labels.size(0)
-    correct += (predicted == labels).sum()
-
-    AEloss += aecrit(replication, inputs)
+with torch.no_grad():
+    for data in testloader:
+        inputs, labels = data
+        if torch.cuda.is_available():
+            inputs, labels = inputs.cuda(), labels.cuda()
+        classification, replication = model(inputs)
+        _, predicted = torch.max(classification.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+        AEloss += aecrit(replication, inputs)
 
 # add to the results dataframe
 # generate an index (may differ due to early stopping)
@@ -185,7 +177,7 @@ df2 = pd.DataFrame([100*correct.item()/total], index=[1], columns=[loop])
 tests_df = pd.concat([tests_df,df2], axis=1)
 tests_df.to_csv(tests_save)
 
-print('Loop %d accuracy on the test images: %d %%' % (loop,100*correct/total))
+print('Loop %d accuracy on the test images: %d %%' % (100*correct/total))
 
 
 # In[ ]:
