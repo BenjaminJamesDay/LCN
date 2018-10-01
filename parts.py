@@ -89,7 +89,8 @@ class latent2classifier(nn.Module):
         layers = [3,96,96,96,192,192,192,192,192,10]
         
         # the latent space is 256.1.1
-        self.linear1 = nn.Linear(256, 32)
+        self.linear1 = nn.Linear(256, 64)
+        self.linear2 = nn.Linear(64, 32)
         # the number of final layers (parallel) is determined by those layers that are being conditioned (defined in
         # layers_to_condition)
         # also initialise the weights to be small to not be overly distruptive early in training
@@ -102,6 +103,7 @@ class latent2classifier(nn.Module):
         
         x = torch.squeeze(x)
         x = F.relu(self.linear1(x))
+        x = F.relu(self.linear2(x))
         
         gammas = [gs(x) for gs in self.gamma_outs]
         betas = [bs(x) for bs in self.beta_outs]
