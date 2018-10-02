@@ -85,7 +85,6 @@ for epoch in range(max_epochs):
         # update total loss for the epoch
         running_loss += loss.item()
             
-    # arrays to store results (need 1 place for a 1-loop, 2 places for a 2-loop etc.)
     correct = 0
     total = 0
     AEloss = 0.0
@@ -110,7 +109,7 @@ for epoch in range(max_epochs):
 
     print('[Epoch - Validation Accuracy - AE Loss]\t%d\t%.3f\t%.3f' % (epoch+1, score, AEloss))
 
-    # check if improvement was made in the final loop
+    # check if improvement was made
     if score >= val_max:
         val_max = score
         streak = 0
@@ -123,7 +122,7 @@ for epoch in range(max_epochs):
     if streak >= patience:
         break
 
-print('Lost patience at loop', loop, 'loading top model (epoch %d)' % top_epoch)
+print('Lost patience. Loading top model (epoch %d)' % top_epoch)
 
 model.load_state_dict(torch.load(savepath))
 
@@ -150,22 +149,17 @@ with torch.no_grad():
 ind = list(np.arange(len(val_acc)))
 # form a dataframe for this set
 # val_acc is the list of records, ind is formed based on its length
-# and the column name is the current loop number
 df1 = pd.DataFrame(val_acc, index=ind, columns=headers)
 # merge with the current set of results
 val_acc_df = pd.concat([val_acc_df,df1],axis=1)
 # save
 val_acc_df.to_csv(valacc_save)
 
-df2 = pd.DataFrame([100*correct.item()/total], index=[1], columns=[loop])
+df2 = pd.DataFrame([100*correct.item()/total], index=[1])
 tests_df = pd.concat([tests_df,df2], axis=1)
 tests_df.to_csv(tests_save)
 
-print('Loop %d accuracy on the test images: %d %%' % (100*correct/total))
-
-
-# In[ ]:
-
+print('Accuracy on the testset: %.2f' % (100*correct/total))
 
 os.remove(savepath)
 
