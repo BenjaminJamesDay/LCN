@@ -27,6 +27,7 @@ trainloader, validloader = trainvalid
 testloader = data_loader_CIFAR10.get_test_loader('./data', batch_size=batchsize)
 
 # Run parameters
+max_epochs = 500
 time_label = time.strftime('%Y%m%d%H%M')
 valacc_save = './logs/' + time_label + '_VA.csv'
 tests_save = './logs/' + time_label + '_TA.csv'
@@ -148,7 +149,7 @@ with torch.no_grad():
 ind = list(np.arange(len(val_acc)))
 # form a dataframe for this set
 # val_acc is the list of records, ind is formed based on its length
-df1 = pd.DataFrame(val_acc, index=ind, columns=headers)
+df1 = pd.DataFrame(val_acc, index=ind)
 # merge with the current set of results
 val_acc_df = pd.concat([val_acc_df,df1],axis=1)
 # save
