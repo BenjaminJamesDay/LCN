@@ -82,11 +82,11 @@ class plaindecoder(nn.Module):
 class latent2classifier(nn.Module):
     """
     """
-    def __init__(self):
+    def __init__(self, num_classes):
         super(latent2classifier, self).__init__()
         
         # the number kernels in each layer of the AllConv net
-        layers = [3,96,96,96,192,192,192,192,192,10]
+        layers = [3,96,96,96,192,192,192,192,192,num_classes]
         
         # the latent space is 256.1.1
         self.linear1 = nn.Linear(256, 64)

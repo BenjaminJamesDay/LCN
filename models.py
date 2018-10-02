@@ -30,7 +30,7 @@ class LCN10plain(nn.Module):
         super(LCN10plain, self).__init__()
         
         self.encoder = parts.encoder()
-        self.latent2classifier = parts.latent2classifier()
+        self.latent2classifier = parts.latent2classifier(10)
         self.classifier = parts.classifier(10)
         self.decoder = parts.plaindecoder()
         
@@ -71,7 +71,7 @@ class LCN10(nn.Module):
         super(LCN10, self).__init__()
         
         self.encoder = parts.encoder()
-        self.latent2classifier = parts.latent2classifier()
+        self.latent2classifier = parts.latent2classifier(10)
         self.classifier = parts.classifier(10)
         self.class2decoder = parts.class2decoder(10)
         self.decoder = parts.decoder()
@@ -96,7 +96,7 @@ class LCN100(nn.Module):
         super(LCN100, self).__init__()
         
         self.encoder = parts.encoder()
-        self.latent2classifier = parts.latent2classifier()
+        self.latent2classifier = parts.latent2classifier(100)
         self.classifier = parts.classifier(100)
         self.class2decoder = parts.class2decoder(100)
         self.decoder = parts.decoder()
@@ -118,7 +118,7 @@ class LCN100plain(nn.Module):
         super(LCN100plain, self).__init__()
         
         self.encoder = parts.encoder()
-        self.latent2classifier = parts.latent2classifier()
+        self.latent2classifier = parts.latent2classifier(100)
         self.classifier = parts.classifier(100)
         self.decoder = parts.plaindecoder()
         
