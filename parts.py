@@ -219,7 +219,7 @@ class classifier(nn.Module):
         x = (g[9].view(-1,g[9].size()[-1],1,1).expand_as(x) + 1)*(x-b[9].view(-1,b[9].size()[-1],1,1).expand_as(x))
         
         x = self.pool(F.relu(x))
-        x = x.view(-1, 10)
+        x = x.view(-1, self.num_classes)
         x = self.linear(x)
                 
         return x
