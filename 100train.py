@@ -10,7 +10,7 @@ import time
 import parts
 import models
 
-from lib import data_loader_CIFAR10
+from lib import data_loader_CIFAR100
 
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='3'
