@@ -168,7 +168,7 @@ class classifier(nn.Module):
         self.conv6 = nn.Conv2d(192, 192, 3, stride=2, padding=1)
         self.conv7 = nn.Conv2d(192, 192, 3, padding = 1)
         self.conv8 = nn.Conv2d(192, 192, 1)
-        self.conv9 = nn.Conv2d(192, 10, 1)
+        self.conv9 = nn.Conv2d(192, self.num_classes, 1)
         
         # Pooling layer
         self.pool = nn.AvgPool2d(8)
