@@ -58,7 +58,7 @@ optimizer = optim.Adam(model.parameters(), lr=lr0)
 val_max = 0.
 streak = 0
 top_epoch = 0
-savepath = './best' + time_label
+savepath = './best/' + time_label
 val_acc = []
 
 for epoch in range(max_epochs):
@@ -154,7 +154,7 @@ val_acc_df = pd.concat([val_acc_df,df1],axis=1)
 # save
 val_acc_df.to_csv(valacc_save)
 
-df2 = pd.DataFrame([100*correct.item()/total], index=[1])
+df2 = pd.DataFrame([100*correct/total], index=[1])
 tests_df = pd.concat([tests_df,df2], axis=1)
 tests_df.to_csv(tests_save)
 
