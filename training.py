@@ -121,7 +121,7 @@ for epoch in range(max_epochs):
     if streak >= patience:
         break
 
-print('Lost patience. Loading top model (epoch %d)' % top_epoch)
+print('Lost patience. Loading top model - epoch %d)' % top_epoch)
 
 model.load_state_dict(torch.load(savepath))
 
@@ -158,7 +158,7 @@ df2 = pd.DataFrame([100*correct/total], index=[1])
 tests_df = pd.concat([tests_df,df2], axis=1)
 tests_df.to_csv(tests_save)
 
-print('Accuracy on the testset: %.2f' % (100*correct/total))
+print('Accuracy on the test set: %.2f' % (100*correct/total))
 
 os.remove(savepath)
 
