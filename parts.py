@@ -172,7 +172,7 @@ class classifier(nn.Module):
         
         # Pooling layer
         self.pool = nn.AvgPool2d(8)
-        self.linear = nn.Linear(10, self.num_classes)
+        self.linear = nn.Linear(self.num_classes, self.num_classes)
         
         self.drop_in = nn.Dropout(0.2)
         self.drop_block = nn.Dropout(0.5)
