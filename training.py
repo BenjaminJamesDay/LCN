@@ -27,7 +27,6 @@ trainloader, validloader = trainvalid
 testloader = data_loader_CIFAR10.get_test_loader('./data', batch_size=batchsize)
 
 # Run parameters
-max_epochs = 500
 time_label = time.strftime('%Y%m%d%H%M')
 valacc_save = './logs/' + time_label + '_VA.csv'
 tests_save = './logs/' + time_label + '_TA.csv'
